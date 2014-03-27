@@ -6,3 +6,7 @@ dockerd:
     - "4243"
   volumes:
     - /tmp/docker:/var/lib/docker
+ror:
+  build: ror
+  links:
+    - dockerd
