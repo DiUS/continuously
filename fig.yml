@@ -1,0 +1,6 @@
+dockerd:
+  build: dockerd
+  command: /usr/local/bin/wrapdocker
+  privileged: true
+  ports:
+   - "4243"
