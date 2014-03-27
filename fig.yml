@@ -3,4 +3,6 @@ dockerd:
   command: /usr/local/bin/wrapdocker
   privileged: true
   ports:
-   - "4243"
+    - "4243"
+  volumes:
+    - /tmp/docker:/var/lib/docker

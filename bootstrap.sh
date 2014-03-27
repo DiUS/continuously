@@ -2,7 +2,7 @@
 #
 # Script to install any left-overs
 
-DEBIAN_FRONTEND=noninteractive
+set -e
 
 # Add the lxc-docker package and other requirements
 echo "deb http://get.docker.io/ubuntu docker main" > /etc/apt/sources.list.d/docker.list
@@ -50,7 +50,10 @@ if [ ! -e /usr/local/bin/ngrok ]; then
 fi
 
 # Fig, because we're currently using that for orchestration
-pip install -U fig
+# Also, we need the latest version because it supports "privileged"
+if [ ! -e /usr/local/bin/fig ]; then
+  mkdir -p /tmp/git && cd /tmp/git && git clone https://github.com/orchardup/fig.git && cd fig && python setup.py install && rm -rf /tmp/git
+fi
 
 # Useful aliases
 cat << EOF > /etc/profile.d/docker.sh
@@ -62,4 +65,4 @@ EOF
 chmod +x /etc/profile.d/docker.sh
 
 # Finally, run the daemons
-fig up -d
+cd /vagrant && fig up -d

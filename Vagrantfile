@@ -18,8 +18,8 @@ VBOX_NAME = "ubuntu-13.10-amd64-daily"
 VBOX_URI = 'http://cloud-images.ubuntu.com/vagrant/saucy/current/saucy-server-cloudimg-amd64-vagrant-disk1.box'
 VBOX_IP = ENV.fetch('DOCKER_IP', '10.42.42.2')
 # Using Facter to give us a machine with a quarter the memory and half the cpus of host
-VBOX_MEMORY = ENV.fetch('DOCKER_MEMORY', [Facter.memsize_mb.to_i/4, 512].max)
-VBOX_CPUS = ENV.fetch('DOCKER_CPUS', [Facter.processorcount.to_i/2, 1].max])
+VBOX_MEMORY = ENV.fetch('DOCKER_MEMORY', [Facter.memorysize_mb.to_i/4, 512].max)
+VBOX_CPUS = ENV.fetch('DOCKER_CPUS', [Facter.processorcount.to_i/2, 1].max)
 
 # The following two methods were taken from https://github.com/mitchellh/vagrant/issues/1874
 # and should be removed and replaced when Vagrantfile can manage installation of plugins.
@@ -55,18 +55,19 @@ Vagrant.configure("2") do |config|
   config.vm.provision "docker"
   config.vm.provision :shell, :path => "bootstrap.sh"
   config.vm.network :private_network, ip: VBOX_IP
+
   config.vm.provider :vbox do |vbox, override|
     config.vm.box = VBOX_NAME
     config.vm.box_url = VBOX_URI
     vbox.name = VBOX_NAME
-    vbox.customize ["modifyvm", :id, "--memory", VBOX_MEMORY
-    vbox.customize ["modifyvm", :id, "--cpus", VBOX_CPUS
+    vbox.customize ["modifyvm", :id, "--memory", VBOX_MEMORY]
+    vbox.customize ["modifyvm", :id, "--cpus", VBOX_CPUS]
     vbox.customize ["modifyvm", :id, "--cpuexecutioncap", "75"]
   end
 
   config.vm.provider :aws do |aws, override|
-    config.vm.box = 'dummy'
-    config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
+    override.vm.box = 'dummy'
+    override.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
     aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
     aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
     aws.keypair_name = ENV['AWS_KEYPAIR_NAME'] || 'aws-syd'
