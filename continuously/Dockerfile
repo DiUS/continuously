@@ -26,6 +26,9 @@ ENV HOME /home/continuously
 USER continuously
 
 # Add the project to the container
+VOLUME /var/containers
+RUN chown -R continuously.continuously /var/containers
+
 ADD . /opt/continuously
 RUN sudo chown -R continuously.continuously /opt/continuously
 
