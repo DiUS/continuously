@@ -47,4 +47,4 @@ gem 'mixlib-shellout'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-gem 'docker_peer'
+gem 'docker_peer', path: './lib/docker_peer'
