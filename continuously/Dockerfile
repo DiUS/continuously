@@ -27,6 +27,7 @@ USER continuously
 
 # Add the project to the container
 ADD . /opt/continuously
+RUN chown -R continuously.continuously /opt/continuously
 
 # Set our base directory
 WORKDIR /opt/continuously
