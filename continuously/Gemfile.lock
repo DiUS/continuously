@@ -1,5 +1,5 @@
 PATH
-  remote: lib/docker_peer
+  remote: ./lib/docker_peer
   specs:
     docker_peer (0.0.1)
       docker
@@ -121,12 +121,9 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-<<<<<<< HEAD
-  docker_peer!
-=======
   docker
+  docker_peer!
   git
->>>>>>> git webhook endpoint now clones or pulls the repo
   jbuilder (~> 1.2)
   jquery-rails
   mixlib-shellout
