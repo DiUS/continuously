@@ -3,4 +3,4 @@
 .ruby-gemset
 continuously/.bundle
 continuously/.gem
-
+*.swp
