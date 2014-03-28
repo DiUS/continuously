@@ -1,0 +1,7 @@
+system:
+  - dockerd:
+    build: dockerd
+test:
+  - continuously:
+    build: continuously
+    cmd: rake spec

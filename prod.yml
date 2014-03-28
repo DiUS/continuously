@@ -1,0 +1,5 @@
+system:
+  - dockerd:
+    build: dockerd
+  - continuously:
+    build: continuously
