@@ -1,6 +1,7 @@
 system:
   - dockerd:
     build: dockerd
+    privileged: true
     volumes:
       - /var/containers
   - continuously:
