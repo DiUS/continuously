@@ -2,10 +2,15 @@ require 'mixlib/shellout'
 
 class Poller
   def initialize( gitrepo ) 
-    clone = Mixlib::ShellOut.new("git clone https://github.com/#{gitrepo} .app")
-    clone.run_command
-    clone.error!
-    puts clone.stdout
+    unless (File.exists?('.app'))
+      puts 'cloning .app directory'
+      clone = Mixlib::ShellOut.new("git clone https://github.com/#{gitrepo} .app")
+      clone.run_command
+      clone.error!
+      puts clone.stdout
+
+    end
+    puts 'initialized poller!!!!!'
   end  
 
   def poll

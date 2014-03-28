@@ -1,3 +1,9 @@
+PATH
+  remote: lib/docker_peer
+  specs:
+    docker_peer (0.0.1)
+      docker
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -35,6 +41,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.7.0)
+    docker (0.0.1)
     erubis (2.7.0)
     execjs (2.0.2)
     hike (1.2.3)
@@ -113,6 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+  docker_peer!
   jbuilder (~> 1.2)
   jquery-rails
   mixlib-shellout
