@@ -17,7 +17,7 @@ class Poller
     poll = Mixlib::ShellOut.new("git pull", :cwd => '.app')
     poll.run_command
     unless poll.stdout.include? 'up-to-date'
-      puts poll.stdout
+      puts poll.stdout      
       puts "run block"
       yield
     end
