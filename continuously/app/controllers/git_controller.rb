@@ -17,6 +17,9 @@ class GitController < ActionController::Base
     else
       repo = Git.clone(url, name, :path => home_dir) # version?
     end
+    # docker
+    DockerPeer.new.run(repo_dir)
+
     render json: {}
   end
 end
