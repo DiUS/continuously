@@ -1,7 +1,11 @@
 system:
   - dockerd:
     build: dockerd
+    volumes:
+      - /var/containers
 test:
   - continuously:
     build: continuously
     cmd: rake spec
+    volumes-from:
+      - dockerd

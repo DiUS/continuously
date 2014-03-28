@@ -1,5 +1,9 @@
 system:
   - dockerd:
     build: dockerd
+    volumes:
+      - /var/containers
   - continuously:
     build: continuously
+    volumes-from:
+      - dockerd
