@@ -21,14 +21,13 @@ RUN gem install rails
 # Add a continuously user
 RUN adduser --disabled-password --gecos "" continuously; \
   echo "continuously ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN mkdir -p /var/lib/continuously && chown continuously.continuously /var/lib/continuously
+VOLUME /var/containers
+RUN chown -R continuously.continuously /var/containers
 ENV HOME /home/continuously
+
 USER continuously
 
 # Add the project to the container
-VOLUME /var/containers
-RUN chown -R continuously.continuously /var/containers
-
 ADD . /opt/continuously
 RUN sudo chown -R continuously.continuously /opt/continuously
 
