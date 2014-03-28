@@ -44,6 +44,7 @@ GEM
     docker (0.0.1)
     erubis (2.7.0)
     execjs (2.0.2)
+    git (1.2.6)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -120,7 +121,12 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+<<<<<<< HEAD
   docker_peer!
+=======
+  docker
+  git
+>>>>>>> git webhook endpoint now clones or pulls the repo
   jbuilder (~> 1.2)
   jquery-rails
   mixlib-shellout
