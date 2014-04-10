@@ -23,4 +23,5 @@ PLATFORMS
 DEPENDENCIES
   docker-api
   docker_peer!
+  json
   mixlib-shellout

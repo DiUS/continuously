@@ -25,15 +25,19 @@ VOLUME /var/containers
 RUN chown -R continuously.continuously /var/containers
 ENV HOME /home/continuously
 
-USER continuously
+# Cache buster
+ADD Gemfile /tmp/Gemfile
+ADD Gemfile.lock /tmp/Gemfile.lock
+ADD lib/docker_peer /tmp/lib/docker_peer
+RUN cd /tmp && bundle install
 
 # Add the project to the container
+USER continuously
 ADD . /opt/continuously
 RUN sudo chown -R continuously.continuously /opt/continuously
 
 # Set our base directory
 WORKDIR /opt/continuously
-RUN bundle install
 
 EXPOSE 3000
 
