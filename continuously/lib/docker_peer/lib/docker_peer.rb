@@ -5,8 +5,7 @@ require 'json'
 class DockerPeer
   def initialize
     @images = {}
-    @system_containers = []
-    @test_containers = []
+    @containers = {}
   end
 
   def run(path)
@@ -15,33 +14,34 @@ class DockerPeer
     test_confs = runner_conf.fetch('test', [])
     all_confs = system_confs + test_confs
     # Not threaded because it changes directories
-    all_confs.each { |conf| @images[conf['build']] = build_image(conf['build']) }
-    thread_containers(system_confs, @system_containers)
-    thread_containers(test_confs, @test_containers)
+    # Could run in separate processes, but that was awkward to make work
+    all_confs.each { |conf| @images[conf['build']] = build_image(conf['name'], conf['build']) }
+    system_threads = thread_containers(system_confs)
+    test_threads = thread_containers(test_confs)
     # Wait for tests to complete, then tear down system
-    @test_containers.each { |thr| thr.wait }
-    @system_containers.each { |thr| thr.kill_that_thing! }
+    test_threads.each { |thr| thr.join }
+    system_threads.each { |thr| thr.kill_that_thing! }
   end
 
   private
-  def build_image(build_path)
+  def build_image(name, build_path)
     puts "Building #{build_path}"
     image = Docker::Image.build_from_dir(build_path) do |line|
       puts "#{build_path}: #{JSON.parse(line)['stream']}"
     end
+    image.tag repo: name
     return image
   end
 
   def create_container(conf, image)
     createArgs = {'Image' => image.id}
-    createArgs['Cmd'] = conf['cmd'] if !conf['cmd'].nil?
-    createArgs['Volumes'] = conf['volumes'] if !conf['volumes'].nil?
-    createArgs['VolumesFrom'] = conf['volumes-from'] if !conf['volumes-from'].nil?
+    createArgs['Cmd'] = conf['cmd'] unless conf['cmd'].nil?
+    createArgs['Volumes'] = conf['volumes'] unless conf['volumes'].nil?
+    createArgs['VolumesFrom'] = conf['volumes-from'].map { |vf| @containers[vf] } unless conf['volumes-from'].nil?
     return Docker::Container.create(createArgs)
   end
 
   def start_container(conf, container)
-    puts "starting #{container}"
     container.start('Privileged' => conf.fetch('privileged', false))
     return container
   end
@@ -55,13 +55,16 @@ class DockerPeer
     attach_container(container)
   end
 
-  def thread_containers(confs, containers)
+  def thread_containers(confs)
+    threads = []
     confs.each do |conf|
-      Thread.new do
-        container = create_container(conf, @images[conf['build']])
-        containers << container
-        start_and_wait(conf, container)
+      # Create container outside thread so we can add it to the list,
+      # so we know to wait for it later
+      @containers[conf['name']] = create_container(conf, @images[conf['build']])
+      threads << Thread.new do
+        start_and_attach(conf, @containers[conf['name']])
       end
     end
+    return threads
   end
 end
