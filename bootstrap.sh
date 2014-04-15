@@ -49,12 +49,6 @@ if [ ! -e /usr/local/bin/ngrok ]; then
   wget -q -O - https://dl.ngrok.com/linux_386/ngrok.zip | funzip > /usr/local/bin/ngrok && chmod 755 /usr/local/bin/ngrok
 fi
 
-# Fig, because we're currently using that for orchestration
-# Also, we need the latest version because it supports "privileged"
-if [ ! -e /usr/local/bin/fig ]; then
-  mkdir -p /tmp/git && cd /tmp/git && git clone https://github.com/orchardup/fig.git && cd fig && python setup.py install && rm -rf /tmp/git
-fi
-
 # Useful aliases
 cat << EOF > /etc/profile.d/docker.sh
 docker_run_shell () {
