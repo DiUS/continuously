@@ -75,7 +75,10 @@ Make sure you've set the Payload version to be json
 Once you've sent a notification (pushed something), you can replay that as many
 times as you like with ngrok for testing purposes.
 
+## Install Instructions
 
-
-
-
+Make sure you have ruby-dev or ruby-devel and gc packages installed on your
+host.
+Install bundler ("gem install bundler")
+`bundle install` in the continuously directory
+`bundle exec ./test.rb`

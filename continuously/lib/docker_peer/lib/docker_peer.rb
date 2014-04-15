@@ -27,7 +27,8 @@ class DockerPeer
   def build_image(name, build_path)
     puts "Building #{build_path}"
     image = Docker::Image.build_from_dir(build_path) do |line|
-      puts "#{build_path}: #{JSON.parse(line)['stream']}"
+      output = JSON.parse(line)['stream']
+      puts "#{build_path}: #{output}" unless output.empty?
     end
     image.tag repo: name
     return image
