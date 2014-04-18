@@ -53,6 +53,7 @@ class DockerPeer
       begin
         container.wait
       rescue Docker::Error::TimeoutError
+      end
     end
   end
 
