@@ -21,6 +21,7 @@ class DockerPeer
     # Wait for tests to complete, then tear down system
     test_threads.each { |thr| thr.join }
     system_threads.each { |thr| thr.kill_that_thing! }
+    # Collect the logs and report them somewhere
   end
 
   private
@@ -47,13 +48,17 @@ class DockerPeer
     return container
   end
 
-  def attach_container(container)
-    container.attach { |stream, chunk| puts "#{build_path}: #{chunk}" }
+  def wait_container(container)
+    while true
+      begin
+        container.wait
+      rescue Docker::Error::TimeoutError
+    end
   end
 
-  def start_and_attach(conf, container)
+  def start_and_wait(conf, container)
     start_container(conf, container)
-    attach_container(container)
+    wait_container(container)
   end
 
   def thread_containers(confs)
@@ -63,7 +68,7 @@ class DockerPeer
       # so we know to wait for it later
       @containers[conf['name']] = create_container(conf, @images[conf['build']])
       threads << Thread.new do
-        start_and_attach(conf, @containers[conf['name']])
+        start_and_wait(conf, @containers[conf['name']])
       end
     end
     return threads
