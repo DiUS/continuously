@@ -1,12 +1,12 @@
-system:
-  - name: dockerd
-    build: dockerd
-    privileged: true
-    volumes:
+System:
+  - Name: dockerd
+    Build: dockerd
+    Privileged: true
+    Volumes:
       - /var/containers
-test:
-  - name: continuously
-    build: continuously
-    cmd: rake spec
-    volumes-from:
+Test:
+  - Name: continuously
+    Build: continuously
+    Cmd: rake spec
+    VolumesFrom:
       - dockerd
