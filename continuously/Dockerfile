@@ -35,11 +35,9 @@ ADD lib/docker_peer /tmp/lib/docker_peer
 RUN cd /tmp && mv Gemfile.full Gemfile && bundle install
 
 # Add the project to the container
-USER continuously
 ADD . /opt/continuously
-RUN sudo chown -R continuously.continuously /opt/continuously
-
-# Set our base directory
+RUN chown -R continuously.continuously /opt/continuously
+USER continuously
 WORKDIR /opt/continuously
 
 EXPOSE 3000
