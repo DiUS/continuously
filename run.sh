@@ -1,11 +1,10 @@
 #!/bin/bash
 
-set -e
-trap on_exit EXIT
-
 DOCKERID=""
 CONTINUOUSLYID=""
-NGROK=`which ngrok`
+NGROK=`command -v ngrok`
+
+set -e
 
 on_exit() {
   [ "x${DOCKERID}" == "x" ] || {
@@ -17,6 +16,8 @@ on_exit() {
     docker rm ${CONTINUOUSLYID}
   }
 }
+
+trap on_exit EXIT
 
 install_ngrok() {
   [ "x$NGROK" == "x" ] && {
@@ -30,6 +31,8 @@ install_ngrok() {
 
 docker build --tag="dockerd" dockerd
 docker build --tag="continuously" continuously
-DOCKERID=$(docker run -d --name="dockerd" --privileged dockerd)
-CONTINUOUSLYID=$(docker run -d --name="continuously" --volumes-from=dockerd --link=dockerd:dockerd -p 3000:3000 continuously)
-ngrok 3000
+DOCKERID=`docker run -d --name="dockerd" --privileged dockerd`
+CONTINUOUSLYID=`docker run -d --name="continuously" --volumes-from=dockerd --link=dockerd:dockerd -p 3000:3000 continuously`
+#install_ngrok
+#ngrok 3000
+docker wait continuously
