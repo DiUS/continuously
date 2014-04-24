@@ -1,5 +1,4 @@
 require 'git'
-require 'docker'
 
 class GitController < ActionController::Base
   respond_to :json

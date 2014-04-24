@@ -18,5 +18,6 @@ ADD wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
 VOLUME /var/lib/docker
 ENV PORT 4243
+EXPOSE 4243
 
 ENTRYPOINT ["/usr/local/bin/wrapdocker"]

@@ -1,5 +1,5 @@
 PATH
-  remote: continuously/lib/docker_peer
+  remote: ./continuously/lib/docker_peer
   specs:
     docker_peer (0.0.1)
       docker

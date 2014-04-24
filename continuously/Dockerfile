@@ -10,14 +10,15 @@ RUN localedef -c -i en_AU -f UTF-8 en_AU.UTF-8
 RUN apt-get -yq update && apt-get -yq upgrade
 
 # Requirements for RoR
-RUN apt-get -yq install ruby-dev
+RUN apt-get -yq install ruby2.0-dev
 RUN apt-get -yq install make
 RUN apt-get -yq install ruby2.0
 RUN apt-get -yq install libsqlite3-dev
 RUN apt-get -yq install nodejs
 RUN apt-get -yq install git
+RUN update-alternatives --set ruby /usr/bin/ruby2.0
 # Verbose to stop things from timing out - revisit if we can fix the timeout
-RUN gem install rails --no-rdoc --no-ri -V
+RUN gem2.0 install rails --no-rdoc --no-ri -V
 
 # Add a continuously user
 RUN adduser --disabled-password --gecos "" continuously; \
@@ -34,11 +35,9 @@ ADD lib/docker_peer /tmp/lib/docker_peer
 RUN cd /tmp && mv Gemfile.full Gemfile && bundle install
 
 # Add the project to the container
-USER continuously
 ADD . /opt/continuously
-RUN sudo chown -R continuously.continuously /opt/continuously
-
-# Set our base directory
+RUN chown -R continuously.continuously /opt/continuously
+USER continuously
 WORKDIR /opt/continuously
 
 EXPOSE 3000
