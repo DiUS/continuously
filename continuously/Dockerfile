@@ -23,8 +23,8 @@ RUN gem2.0 install rails --no-rdoc --no-ri -V
 # Add a continuously user
 RUN adduser --disabled-password --gecos "" continuously; \
   echo "continuously ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-VOLUME /var/containers
-RUN chown -R continuously.continuously /var/containers
+VOLUME /var/git
+RUN chown -R continuously.continuously /var/git
 ENV HOME /home/continuously
 
 # Cache buster

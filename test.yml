@@ -2,8 +2,6 @@ System:
   - Name: dockerd
     Build: dockerd
     Privileged: true
-    Volumes:
-      - /var/containers
 Test:
   - Name: continuously
     Build: continuously

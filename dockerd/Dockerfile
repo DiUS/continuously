@@ -16,7 +16,7 @@ ADD docker-latest /usr/local/bin/docker
 #ADD https://raw.githubusercontent.com/jpetazzo/dind/master/wrapdocker /usr/local/bin/wrapdocker
 ADD wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/docker /usr/local/bin/wrapdocker
-VOLUME /var/lib/docker
+VOLUME /var/git
 ENV PORT 4243
 EXPOSE 4243
 

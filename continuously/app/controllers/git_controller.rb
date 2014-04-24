@@ -7,7 +7,7 @@ class GitController < ActionController::Base
     name = payload["repository"]["name"]
     url = payload["repository"]["url"]
     sha = payload["head_commit"]["id"]
-    home_dir = "/var/containers"
+    home_dir = "/var/git"
     repo_dir = "#{home_dir}/#{name}"
     # Clone and/or pull
     if File.directory?(repo_dir)
