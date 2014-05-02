@@ -3,7 +3,7 @@ require 'git'
 class GitController < ActionController::Base
   respond_to :json
   def create
-    payload = JSON.parse(params[:payload])
+    payload = JSON.parse(params[:payload] || params)
     name = payload["repository"]["name"]
     url = payload["repository"]["url"]
     sha = payload["head_commit"]["id"]
