@@ -32,9 +32,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'rufus-scheduler'
-gem 'mixlib-shellout'
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
