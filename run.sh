@@ -8,7 +8,7 @@ RUN_NGROK=0
 
 set -e
 
-while getopts ":dnh" opts; do
+while getopts ":dnh" opt; do
   case $opt in
     d)
       RUN_DOCKERD=1
