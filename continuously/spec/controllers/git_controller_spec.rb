@@ -1,5 +1,5 @@
 describe GitController do
-  context 'called by github' do
+  describe "POST /git/create" do
     before do
       allow(File).to receive('directory?')
       @mock_git = double(Git)
