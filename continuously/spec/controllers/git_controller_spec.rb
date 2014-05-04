@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe GitController do
   context 'called by github' do
     before do
