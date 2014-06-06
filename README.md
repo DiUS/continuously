@@ -1,25 +1,30 @@
 continuously
 =========
 
-Spike to try and build a CI server based on Docker
+A CI server based on Docker
 
-This project should provide a server that accepts notifications from github and
+This project provides a server that accepts notifications from github and
 triggers git clone and docker commands. The plan is to have everything checked
 into the repository itself - the description of how the server should look, how
 the tests should be run, and eventually how the system should be deployed.
-The CI server itself should be standalone with almost no configuration whatsoever.
+The CI server itself should be standalone with almost no configuration
+whatsoever.
 
 ## Assumptions
 
-* The code to be tested will be hosted on github (for ease of personal development, happy to accept PRs that add other notification sources)
+* The code to be tested will be hosted on github (for ease of personal
+development, happy to accept PRs that add other notification sources)
 
 * Dockerfile will be used per project to define the server configuration
 
-* There will be a file that defines the entry points for testing, deployment and notifications (format TBD)
+* There will be a file that defines the entry points for testing, deployment
+and notifications (format TBD)
 
-* The system will lean on standard deployment tools (ansible etc) for deployment where appropriate (ie. not building support in directly for this)
+* The system will lean on standard deployment tools (ansible etc) for
+deployment where appropriate (ie. not building support in directly for this)
 
-* The system will lean on standard test suite tools (language-specific) for testing (ie. not building support in directly for this)
+* The system will lean on standard test suite tools (language-specific) for
+testing (ie. not building support in directly for this)
 
 * The system will test itself
 
@@ -37,11 +42,8 @@ think that through. This is where Dockerfiles fall down a bit, too.
 
 * Vagrantfile and bootstrap.sh - exist to allow for creating a new server,
 either in vbox or aws, with all the required software installed.
-* dockerd/ - contains a Docker-in-Docker image definition. This is the docker
-"server" that will be used to create new containers for testing - thus keeping
-everything self-contained.
-* <TBD>/ - a container with the web server, which takes push notifications and
-triggers git checkouts and builds.
+* continuously/ - a container with the web server, which takes push
+notifications and triggers git checkouts and builds.
 * <TBD.yml?> - definition file that describes how to link the containers
 together and what to run for testing.
 
@@ -59,10 +61,10 @@ including docker.
 To run the server for development locally using ngrok:
 
 Terminal 1:
-  fig up
+  docker run -d continuously
 
 Terminal 2:
-	ngrok 5000
+  ngrok 3000
 
 Update github.com to have the new forwarding address as the webhook
 (Settings -> Webhooks) for whichever project you're testing with. The
