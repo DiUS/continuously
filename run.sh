@@ -40,7 +40,7 @@ run_ngrok() {
 }
 
 run_continuously() {
-  docker build --tag="continuously" continuously
+  docker build --tag="continuously" .
   CONTINUOUSLYID=`docker run -d --name="continuously" -v /var/git:/var/git -e DOCKER_HOST=${DOCKER_HOST} -p 3000:3000 continuously`
 }
 
