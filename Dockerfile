@@ -14,8 +14,7 @@ RUN apt-get -yq install libsqlite3-dev
 RUN apt-get -yq install nodejs
 RUN apt-get -yq install git
 RUN update-alternatives --set ruby /usr/bin/ruby2.0
-# Verbose to stop things from timing out - revisit if we can fix the timeout
-RUN gem2.0 install rails --no-rdoc --no-ri -V
+RUN echo 'gem: --no-document' >> /etc/gemrc
 
 # Add a continuously user
 RUN adduser --disabled-password --gecos "" continuously; \
